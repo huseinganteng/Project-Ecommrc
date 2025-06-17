@@ -423,139 +423,157 @@ function createProductCard(product) {
 
 // Load orders from API (simulate order history using products)
 async function loadOrders() {
-  const loadingEl = document.getElementById("orders-loading");
-  const contentEl = document.getElementById("orders-content");
-  const errorEl = document.getElementById("orders-error");
+    try {
+        const loadingElement = document.getElementById('orders-loading');
+        const contentElement = document.getElementById('orders-content');
+        const errorElement = document.getElementById('orders-error');
 
-  // Show loading state
-  loadingEl.classList.remove("hidden");
-  contentEl.classList.add("hidden");
-  errorEl.classList.add("hidden");
+        loadingElement.classList.remove('hidden');
+        contentElement.classList.add('hidden');
+        errorElement.classList.add('hidden');
 
-  try {
-    const response = await fetch("https://fakestoreapi.com/products?limit=8");
+        // Simulasi loading data
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch orders");
+        // Get orders from localStorage or use mock data
+        const orders = JSON.parse(localStorage.getItem('orderHistory')) || createMockOrders([]);
+
+        if (orders.length === 0) {
+            contentElement.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="text-gray-400 mb-4">
+                        <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada pesanan</h3>
+                    <p class="text-gray-500">Anda belum memiliki riwayat pesanan</p>
+                </div>
+            `;
+        } else {
+            contentElement.innerHTML = orders.map(order => createOrderCard(order)).join('');
+        }
+
+        loadingElement.classList.add('hidden');
+        contentElement.classList.remove('hidden');
+    } catch (error) {
+        console.error('Error loading orders:', error);
+        document.getElementById('orders-loading').classList.add('hidden');
+        document.getElementById('orders-content').classList.add('hidden');
+        document.getElementById('orders-error').classList.remove('hidden');
     }
-
-    const products = await response.json();
-
-    // Create mock orders from products
-    orderHistory = createMockOrders(products);
-
-    // Clear existing content
-    contentEl.innerHTML = "";
-
-    // Create order cards
-    orderHistory.forEach((order) => {
-      const orderCard = createOrderCard(order);
-      contentEl.appendChild(orderCard);
-    });
-
-    // Show content, hide loading
-    loadingEl.classList.add("hidden");
-    contentEl.classList.remove("hidden");
-  } catch (error) {
-    console.error("Error loading orders:", error);
-
-    // Show error state
-    loadingEl.classList.add("hidden");
-    errorEl.classList.remove("hidden");
-  }
 }
 
 // Create mock orders from products
 function createMockOrders(products) {
-  const statuses = ["Selesai", "Diproses", "Dikirim", "Dibatalkan"];
-  const statusClasses = {
-    Selesai: "bg-green-100 text-green-800",
-    Diproses: "bg-yellow-100 text-yellow-800",
-    Dikirim: "bg-blue-100 text-blue-800",
-    Dibatalkan: "bg-red-100 text-red-800",
-  };
+    const statuses = ['Selesai', 'Dalam Pengiriman', 'Menunggu Pembayaran', 'Dibatalkan'];
+    const mockOrders = [];
 
-  return products.slice(0, 5).map((product, index) => {
-    const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const quantity = Math.floor(Math.random() * 3) + 1;
-    const totalPrice = Math.round(product.price * 15000 * quantity);
-    const orderDate = new Date(
-      Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
-    );
+    // Create 5 mock orders
+    for (let i = 1; i <= 5; i++) {
+        const orderDate = new Date();
+        orderDate.setDate(orderDate.getDate() - i * 3); // Each order 3 days apart
 
-    return {
-      id: `ORD-${String(1000 + index).padStart(6, "0")}`,
-      date: orderDate.toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }),
-      status: status,
-      statusClass: statusClasses[status],
-      total: totalPrice,
-      items: [
-        {
-          name: product.title,
-          quantity: quantity,
-          image: product.image,
-        },
-      ],
-      product: product,
-    };
-  });
+        const orderItems = [];
+        const numItems = Math.floor(Math.random() * 3) + 1; // 1-3 items per order
+
+        for (let j = 0; j < numItems; j++) {
+            const product = products[j] || {
+                id: j + 1,
+                title: `Produk ${j + 1}`,
+                price: Math.floor(Math.random() * 1000000) + 100000,
+                image: 'https://via.placeholder.com/150'
+            };
+
+            orderItems.push({
+                id: product.id,
+                name: product.title,
+                price: product.price,
+                quantity: Math.floor(Math.random() * 3) + 1,
+                image: product.image
+            });
+        }
+
+        const total = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+        mockOrders.push({
+            id: `ORD${String(i).padStart(4, '0')}`,
+            date: orderDate.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }),
+            status: statuses[Math.floor(Math.random() * statuses.length)],
+            items: orderItems,
+            total: total
+        });
+    }
+
+    // Sort orders by date (newest first)
+    mockOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    return mockOrders;
 }
 
 // Create order card element
 function createOrderCard(order) {
-  const card = document.createElement("div");
-  card.className =
-    "border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow cursor-pointer";
-  card.dataset.orderId = order.id;
+    const statusColors = {
+        'Selesai': 'bg-green-100 text-green-800',
+        'Dalam Pengiriman': 'bg-blue-100 text-blue-800',
+        'Menunggu Pembayaran': 'bg-yellow-100 text-yellow-800',
+        'Dibatalkan': 'bg-red-100 text-red-800'
+    };
 
-  card.innerHTML = `
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-4">
-            <div class="flex gap-4">
-                <div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden">
-                    <img src="${order.product.image}" alt="${
-    order.product.title
-  }" class="w-full h-full object-contain">
+    const statusColor = statusColors[order.status] || 'bg-gray-100 text-gray-800';
+
+    return `
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div class="p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Order #${order.id}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">${order.date}</p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor}">${order.status}</span>
+                        <button onclick="viewOrderDetail('${order.id}')" class="text-blue-600 hover:text-blue-700 font-medium text-sm">
+                            Detail Pesanan
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <div class="font-semibold text-gray-900">${order.id}</div>
-                    <p class="text-gray-500 text-sm">${order.date}</p>
+                
+                <div class="space-y-4">
+                    ${order.items.map(item => `
+                        <div class="flex items-center gap-4">
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-900 dark:text-white">${item.name}</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${item.quantity}x</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-900 dark:text-white">Rp ${item.price.toLocaleString()}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Total: Rp ${(item.price * item.quantity).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Total Pembayaran</p>
+                            <p class="text-xl font-bold text-gray-900 dark:text-white">Rp ${order.total.toLocaleString()}</p>
+                        </div>
+                        ${order.status === 'Selesai' ? `
+                            <button onclick="reorderProduct('${order.items[0].id}')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                                Beli Lagi
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
             </div>
-            <span class="inline-block px-3 py-1 ${
-              order.statusClass
-            } rounded-full text-sm font-medium">${order.status}</span>
-        </div>
-        <p class="font-medium text-gray-900 mb-2">Total: Rp ${order.total.toLocaleString(
-          "id-ID"
-        )}</p>
-        <p class="text-gray-600 text-sm">${
-          order.items[0].quantity
-        } item • ${order.items[0].name.substring(0, 60)}${
-    order.items[0].name.length > 60 ? "..." : ""
-  }</p>
-        <div class="mt-4 flex gap-2">
-            <button onclick="viewOrderDetail('${
-              order.id
-            }')" class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium">
-                Lihat Detail
-            </button>
-            ${
-              order.status === "Selesai"
-                ? `
-                <button onclick="reorderProduct(${order.product.id})" class="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium">
-                    Pesan Lagi
-                </button>
-            `
-                : ""
-            }
         </div>
     `;
-
-  return card;
 }
 
 // Product interactions

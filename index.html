@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toko Online - Your Ultimate Shopping Destination</title>
+    <link href="../dist/output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .slider-transition {
+            transition: transform 0.5s ease-in-out;
+        }
+        #slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+        #slider > div {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+        }
+        .fa-star, .fa-star-half-alt {
+            color: #fbbf24 !important;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- NAVBAR -->
+    <nav class="bg-white border-gray-200 fixed w-full top-0 z-50 shadow-md">
+      <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
+            <a href="#" class="flex items-center space-x-3">
+          <img src="https://cdn.pixabay.com/photo/2024/01/25/06/56/gaming-logo-8531082_1280.png" class="h-8" alt="Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap gradient-text">Toko Online</span>
+        </a>
+
+  <div class="flex items-center space-x-4">
+                <button id="loginBtn" class="text-gray-700 hover:text-blue-600 font-medium bg-white px-6 py-2 rounded-lg transition-colors">Masuk</button>
+                <button id="registerBtn" class="text-white bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium transition-colors">Daftar</button>
+        </div>
+      </div>
+    </nav>
+  
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 relative bg-cover bg-center bg-no-repeat" style="background-image: url('https://sm.ign.com/ign_br/screenshot/default/sdl-sanjaya-2rqomzlvxhc-unsplash_zzjn.jpg');">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    Temukan Semua Kebutuhan
+                    <span class="gradient-text">Digital Anda</span>
+                </h1>
+                <p class="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
+                    Platform belanja online terpercaya dengan ribuan produk berkualitas. 
+                    Nikmati pengalaman berbelanja yang aman, cepat, dan hemat.
+                </p>
+                <div class="flex justify-center space-x-4">
+                    <a href="#loginBtn" onclick="document.getElementById('loginBtn').click()" class="bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 transition-all duration-200 font-semibold text-lg hover:scale-105">
+                        Mulai Belanja
+                    </a>
+                    <a href="#registerBtn" onclick="document.getElementById('registerBtn').click()" class="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-blue-50 transition-all duration-200 font-semibold text-lg hover:scale-105">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Mengapa Memilih Kami?</h2>
+                <p class="text-gray-600">Nikmati berbagai keuntungan berbelanja di platform kami</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-truck text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Pengiriman Cepat</h3>
+                    <p class="text-gray-600">Pengiriman ke seluruh Indonesia dengan berbagai pilihan kurir terpercaya</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Pembayaran Aman</h3>
+                    <p class="text-gray-600">Transaksi aman dengan berbagai metode pembayaran terpercaya</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-2xl hover:shadow-lg transition-all duration-300">
+                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-headset text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Layanan 24/7</h3>
+                    <p class="text-gray-600">Customer service siap membantu Anda kapan saja</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slider Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Promo Spesial</h2>
+                <p class="text-gray-600">Dapatkan penawaran terbaik untuk produk pilihan Anda</p>
+            </div>
+            <div class="relative w-full max-w-6xl mx-auto h-[400px] rounded-2xl overflow-hidden shadow-xl">
+                <div id="slider" class="flex w-full h-full slider-transition">
+                    <!-- Slide 1 -->
+                    <div class="relative w-full h-full flex-shrink-0">
+                        <img src="https://images.samsung.com/is/image/samsung/assets/id/members/article-assets/gaming-monitors/img-kv-2.jpg?$ORIGIN_JPG$" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-4 left-4 bg-black/70 text-white p-4 rounded-lg backdrop-blur-sm">
+                            <h2 class="text-lg md:text-xl font-bold">Monitor Gaming 4K</h2>
+                            <p class="text-sm md:text-base">Visual tajam & refresh rate tinggi</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="relative w-full h-full flex-shrink-0">
+                        <img src="https://www.homepaylater.vn/static/bc85437ab7c1530a6ea1e1b7db1a4da6/d3d77/01_laptop_gaming_la_gi_3efc0f9424.jpg" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-4 left-4 bg-black/70 text-white p-4 rounded-lg backdrop-blur-sm">
+                            <h2 class="text-lg md:text-xl font-bold">Laptop Gaming Terbaik</h2>
+                            <p class="text-sm md:text-base">Kinerja tinggi buat main dan kerja</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="relative w-full h-full flex-shrink-0">
+                        <img src="https://sm.ign.com/ign_br/screenshot/default/sdl-sanjaya-2rqomzlvxhc-unsplash_zzjn.jpg" class="w-full h-full object-cover" />
+                        <div class="absolute bottom-4 left-4 bg-black/70 text-white p-4 rounded-lg backdrop-blur-sm">
+                            <h2 class="text-lg md:text-xl font-bold">Setup Gaming Idaman</h2>
+                            <p class="text-sm md:text-base">Rasakan pengalaman main yang maksimal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <button id="prev" class="absolute top-1/2 left-3 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <button id="next" class="absolute top-1/2 right-3 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+
+                <!-- Dots Indicator -->
+                <div class="absolute bottom-4 right-4 flex space-x-2">
+                    <div class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-colors" data-slide="0"></div>
+                    <div class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-colors" data-slide="1"></div>
+                    <div class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-colors" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Produk Terbaru</h2>
+                <p class="text-gray-600">Temukan produk terbaru dengan kualitas terbaik</p>
+            </div>
+            <div id="data-product" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-blue-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold mb-2">10K+</div>
+                    <div class="text-blue-100">Produk Aktif</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">50K+</div>
+                    <div class="text-blue-100">Pelanggan Puas</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">100%</div>
+                    <div class="text-blue-100">Produk Original</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">24/7</div>
+                    <div class="text-blue-100">Layanan Pelanggan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Hubungi Kami</h2>
+                <p class="text-gray-600 mb-8">Punya pertanyaan? Kami siap membantu Anda</p>
+                <div class="flex justify-center space-x-6">
+                    <a href="mailto:cs@tokoonline.com" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-envelope text-xl"></i>
+                        <span>Lukass@tokoonline.com</span>
+                    </a>
+                    <a href="tel:+6282125252525" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                        <i class="fas fa-phone text-xl"></i>
+                        <span>+62 821-2597-5449</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white font-bold text-lg mb-4">Toko Online</h3>
+                    <p class="text-sm">Platform belanja online terpercaya dengan ribuan produk berkualitas untuk memenuhi kebutuhan digital Anda.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Layanan</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Bantuan</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pengiriman</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pengembalian</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Tentang Kami</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Karir</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Ikuti Kami</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-sm">&copy; 2025 Toko Online. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Keep your existing modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 justify-center items-center flex">
+      <div class="relative p-4 w-full max-w-md">
+        <div class="relative bg-white rounded-2xl shadow-xl">
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-center mb-8">Masuk</h3>
+            <form id="loginForm" class="space-y-6">
+              <button type="button" id="googleLogin" class="w-full flex items-center justify-center space-x-3 border border-gray-300 rounded-xl p-3 hover:bg-gray-50 transition-colors">
+                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" class="h-5" alt="Google" />
+                <span class="font-medium">Lanjutkan dengan Google</span>
+              </button>
+              
+              <div class="flex items-center gap-4">
+                <hr class="flex-1 border-gray-300" />
+                <span class="text-gray-500 text-sm">atau</span>
+                <hr class="flex-1 border-gray-300" />
+              </div>
+
+              <div>
+                <input type="text" id="email" class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nomor HP atau Email" required />
+              </div>
+
+              <div class="relative">
+                <input type="password" id="password" class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Kata Sandi" required />
+                <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                  <svg class="w-5 h-5 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <svg class="w-5 h-5 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                  </svg>
+                </button>
+              </div>
+
+              <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition-colors font-medium text-lg">Masuk</button>
+              
+              <p class="text-center text-gray-600">
+                Belum punya akun? 
+                <a href="#" id="openRegister" class="text-blue-600 hover:text-blue-700 font-medium">Daftar</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Register Modal -->
+    <div id="registerModal" class="hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 justify-center items-center flex">
+        <div class="relative p-4 w-full max-w-md">
+          <div class="relative bg-white rounded-2xl shadow-xl">
+            <div class="p-8">
+              <h3 class="text-2xl font-bold text-center mb-8">Daftar Sekarang</h3>
+              <form id="registerForm" class="space-y-6">
+                <button type="button" id="googleRegister" class="w-full flex items-center justify-center space-x-3 border border-gray-300 rounded-xl p-3 hover:bg-gray-50 transition-colors">
+                  <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" class="h-5" alt="Google" />
+                  <span class="font-medium">Daftar dengan Google</span>
+                </button>
+                
+                <div class="flex items-center gap-4">
+                  <hr class="flex-1 border-gray-300" />
+                  <span class="text-gray-500 text-sm">atau</span>
+                  <hr class="flex-1 border-gray-300" />
+                </div>
+
+                <div>
+                  <input type="text" id="registerEmail" class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Nomor HP atau Email" required />
+                </div>
+
+                <div class="relative">
+                  <input type="password" id="registerPassword" class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Kata Sandi" required />
+                  <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <svg class="w-5 h-5 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="relative">
+                  <input type="password" id="confirmPassword" class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all" placeholder="Konfirmasi Kata Sandi" required />
+                  <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5 eye-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <svg class="w-5 h-5 eye-closed hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                    </svg>
+                  </button>
+                </div>
+        
+                <p id="errorMsg" class="text-red-600 text-sm hidden">Password tidak cocok</p>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl hover:bg-blue-700 transition-colors font-medium text-lg">Daftar</button>
+        
+                <p class="text-center text-gray-600">
+                  Sudah punya akun?
+                  <a href="#" id="openLogin" class="text-blue-600 hover:text-blue-700 font-medium">Masuk</a>
+                </p>
+
+                <p class="text-xs text-gray-500 text-center">
+                  Dengan mendaftar, saya menyetujui
+                  <a href="#" class="text-blue-600 hover:text-blue-700">Syarat & Ketentuan</a> serta
+                  <a href="#" class="text-blue-600 hover:text-blue-700">Kebijakan Privasi</a>
+                </p>
+              </form>
+            </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Product Detail Modal -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black/48 bg-opacity-70 hidden z-50 flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar">
+        <div class="p-6">
+          <!-- Modal Header -->
+          <div class="flex justify-between items-center mb-6 border-b dark:border-gray-700 pb-4">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">Detail Produk</h2>
+            <button id="closeProductDetail" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Product Detail Content -->
+          <div id="productDetailContent" class="overflow-y-auto">
+            <!-- Content will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="Login.js"></script>
+</body>
+</html>

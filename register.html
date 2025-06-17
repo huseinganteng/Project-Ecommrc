@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Toko Online</title>
+    <link href="../dist/output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Theme Script - Harus dimuat sebelum body -->
+    <script>
+        // Apply theme immediately to prevent flash
+        function applyThemeImmediate() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        applyThemeImmediate();
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-200">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <button onclick="goBack()" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white mr-4">
+                        <a href="Home.html">
+                            <i class="fas fa-arrow-left text-xl"></i>
+                        </a>
+                    </button>
+                    <h1 class="text-xl font-semibold text-gray-800 dark:text-white">Checkout</h1>
+                </div>
+                
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-moon dark:hidden text-gray-600"></i>
+                    <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Alamat Pengiriman -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-semibold flex items-center text-gray-900 dark:text-white">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-2"></i>
+                            Alamat Pengiriman
+                        </h2>
+                        <button onclick="changeAddress()" class="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-sm font-medium">
+                            Ubah Alamat
+                        </button>
+                    </div>
+                    <div id="selected-address" class="border rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="font-medium text-gray-800 dark:text-white">Lukaass <span class="text-sm bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded ml-2">Utama</span></p>
+                                <p class="text-gray-600 dark:text-gray-300 mt-1">+62 821-2597-5449</p>
+                                <p class="text-gray-600 dark:text-gray-300 mt-2">Jl. M.yusuf raya No. 57, RT 03/RW 22<br>Sukmajaya, Depok, Depok 2 16411</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Produk yang Dibeli -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border dark:border-gray-700">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center text-gray-900 dark:text-white">
+                        <i class="fas fa-shopping-bag text-blue-600 mr-2"></i>
+                        Produk yang Dibeli
+                    </h2>
+                    <div id="cart-items" class="space-y-4">
+                        <!-- Cart items akan dimuat di sini -->
+                    </div>
+                </div>
+
+                <!-- Opsi Pengiriman -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border dark:border-gray-700">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center text-gray-900 dark:text-white">
+                        <i class="fas fa-truck text-blue-600 mr-2"></i>
+                        Opsi Pengiriman
+                    </h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 shipping-option">
+                            <input type="radio" name="shipping" value="reguler" class="mr-3" checked onchange="updateShipping('reguler')">
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-gray-900 dark:text-white">Reguler (3-5 hari)</span>
+                                    <span class="text-blue-600 dark:text-blue-400 font-semibold">Rp 15.000</span>
+                                </div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Diantar oleh kurir reguler</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 shipping-option">
+                            <input type="radio" name="shipping" value="express" class="mr-3" onchange="updateShipping('express')">
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-gray-900 dark:text-white">Express (1-2 hari)</span>
+                                    <span class="text-blue-600 dark:text-blue-400 font-semibold">Rp 25.000</span>
+                                </div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Pengiriman lebih cepat</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 shipping-option">
+                            <input type="radio" name="shipping" value="same_day" class="mr-3" onchange="updateShipping('same_day')">
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-medium text-gray-900 dark:text-white">Same Day (Hari ini)</span>
+                                    <span class="text-blue-600 dark:text-blue-400 font-semibold">Rp 35.000</span>
+                                </div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Diantar hari yang sama</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Metode Pembayaran -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border dark:border-gray-700">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center text-gray-900 dark:text-white">
+                        <i class="fas fa-credit-card text-blue-600 mr-2"></i>
+                        Metode Pembayaran
+                    </h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment" value="cod" class="mr-3" checked>
+                            <i class="fas fa-money-bill-wave text-blue-600 mr-3"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">Bayar di Tempat (COD)</span>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment" value="bank_transfer" class="mr-3">
+                            <i class="fas fa-university text-blue-600 mr-3"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">Transfer Bank</span>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment" value="gopay" class="mr-3">
+                            <i class="fas fa-wallet text-blue-600 mr-3"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">GoPay</span>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment" value="ovo" class="mr-3">
+                            <i class="fas fa-mobile-alt text-blue-600 mr-3"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">OVO</span>
+                        </label>
+                        <label class="flex items-center p-3 border dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <input type="radio" name="payment" value="dana" class="mr-3">
+                            <i class="fas fa-qrcode text-blue-600 mr-3"></i>
+                            <span class="font-medium text-gray-900 dark:text-white">DANA</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Voucher/Promo -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border dark:border-gray-700">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center text-gray-900 dark:text-white">
+                        <i class="fas fa-tag text-blue-600 mr-2"></i>
+                        Voucher & Promo
+                    </h2>
+                    <div class="flex gap-3">
+                        <input type="text" id="voucher-input" placeholder="Masukkan kode voucher" 
+                               class="flex-1 px-4 py-2 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                        <button onclick="applyVoucher()" 
+                                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors">
+                            Gunakan
+                        </button>
+                    </div>
+                    <div id="voucher-applied" class="hidden mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <span class="text-blue-800 dark:text-blue-300 font-medium">Voucher "DISKON10" berhasil diterapkan!</span>
+                            <button onclick="removeVoucher()" class="text-red-500 hover:text-red-700 dark:text-red-400">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar - Ringkasan Pesanan -->
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 sticky top-6 border dark:border-gray-700">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Ringkasan Pesanan</h3>
+                    
+                    <div class="space-y-3 mb-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">Subtotal Produk</span>
+                            <span id="subtotal" class="text-gray-900 dark:text-white">Rp 0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600 dark:text-gray-300">Ongkos Kirim</span>
+                            <span id="shipping-cost" class="text-gray-900 dark:text-white">Rp 15.000</span>
+                        </div>
+                        <div id="voucher-discount" class="hidden flex justify-between text-blue-600 dark:text-blue-400">
+                            <span>Diskon Voucher</span>
+                            <span id="discount-amount">-Rp 0</span>
+                        </div>
+                        <hr class="my-3 border-gray-200 dark:border-gray-600">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span class="text-gray-900 dark:text-white">Total Pembayaran</span>
+                            <span id="total-amount" class="text-blue-600 dark:text-blue-400">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <button onclick="processCheckout()" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors">
+                        Buat Pesanan
+                    </button>
+
+                    <div class="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center">
+                        Dengan melakukan pemesanan, Anda menyetujui <a href="#" class="text-blue-600 dark:text-blue-400">Syarat & Ketentuan</a> yang berlaku
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Change Address -->
+    <div id="address-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full mx-4 p-6 border dark:border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Pilih Alamat</h3>
+                <button onclick="closeAddressModal()" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <div class="border dark:border-gray-600 rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 address-item" data-address="1">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium text-gray-900 dark:text-white">Lukaass <span class="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">Utama</span></p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">+62 821-2597-5449</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Jl. M.yusuf raya No. 57, RT 03/RW 22<br>Sukmajaya, Depok, Depok 2 16411</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="border dark:border-gray-600 rounded-lg p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 address-item" data-address="2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="font-medium text-gray-900 dark:text-white">Lukaass</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">+62 821-2597-5449</p>
+                            <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4"> Jl. Kuta, RT 03/RW 22<br>Kebupaten Pemalang, Kecematan Belik<br>Jawa Tengah, Pemalang</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="addNewAddress()" class="w-full mt-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg py-3 text-gray-600 dark:text-gray-400 hover:border-blue-500 hover:text-blue-500 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Tambah Alamat Baru
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 text-center transform transition-all border dark:border-gray-700">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p class="text-gray-600 dark:text-gray-300 text-lg">Memproses pesanan Anda...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-sm w-full mx-4 text-center transform transition-all border dark:border-gray-700">
+                <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-blue-600 dark:text-blue-400 text-4xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Pesanan Berhasil Dibuat!</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6">Terima kasih telah berbelanja di Toko Online. Pesanan Anda akan segera diproses.</p>
+                <button onclick="window.location.href='Home.html'" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors font-medium">
+                    Kembali ke Beranda
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Fungsi untuk apply theme
+        function applyTheme() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            const htmlElement = document.documentElement;
+            
+            if (isDarkMode) {
+                htmlElement.classList.add('dark');
+            } else {
+                htmlElement.classList.remove('dark');
+            }
+        }
+
+        // Fungsi untuk toggle theme
+        function toggleTheme() {
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            const newMode = !isDarkMode;
+            
+            // Update localStorage
+            localStorage.setItem('darkMode', newMode.toString());
+            
+            // Apply theme
+            applyTheme();
+            
+            // Broadcast perubahan ke tab lain
+            window.dispatchEvent(new Event('storage'));
+        }
+
+        // Apply theme saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTheme();
+        });
+
+        // Listen untuk perubahan localStorage dari tab lain
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'darkMode') {
+                applyTheme();
+            }
+        });
+    </script>
+    <script src="checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - Toko Online</title>
+    <link href="../dist/output.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            'bg-primary': '#1a1a1a',
+                            'bg-secondary': '#2d2d2d',
+                            'text-primary': '#ffffff',
+                            'text-secondary': '#a0aec0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-200">
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 fixed w-full top-0 z-50 shadow-md">
+        <div class="max-w-screen-xl mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-4">
+                    <a href="home.html" class="flex items-center text-gray-600 hover:text-blue-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                    </a>
+                    <a href="home.html" class="flex items-center space-x-3">
+                        <img src="https://cdn.pixabay.com/photo/2024/01/25/06/56/gaming-logo-8531082_1280.png" class="h-8" alt="Logo" />
+                        <span class="self-center text-xl md:text-2xl font-semibold whitespace-nowrap text-blue-500 dark:text-white">Toko Online</span>
+                    </a>
+                </div>
+
+                <!-- Menu Items -->
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button id="cart-btn" class="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <a href="profile.html" id="profile-btn" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <div class="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden">
+                            <!-- Avatar will be inserted here by JavaScript -->
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="flex min-h-screen mt-16">
+        <!-- Sidebar Kiri -->
+        <aside class="w-1/4 bg-white dark:bg-gray-800 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg sticky top-24">
+                <!-- Profile Header -->
+                <div class="text-center mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                    <div id="profile-avatar" class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+                        B
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-900 dark:text-white" id="sidebar-name">Lukassa</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm" id="sidebar-email">Lukassa@gmail.com</p>
+                </div>
+
+                <!-- Menu -->
+                <nav class="space-y-2">
+                    <button onclick="showSection('info')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 active bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400">
+                        <span class="text-xl">👤</span>
+                        <span class="font-medium">Profil </span>
+                    </button>
+                    <button onclick="showSection('edit')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300">
+                        <span class="text-xl">✏</span>
+                        <span class="font-medium">Edit Profil</span>
+                    </button>
+                    <button onclick="showSection('orders')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300">
+                        <span class="text-xl">📦</span>
+                        <span class="font-medium">Riwayat Pesanan</span>
+                    </button>
+                    <button onclick="showSection('wishlist')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300">
+                        <span class="text-xl">❤</span>
+                        <span class="font-medium">Wishlist</span>
+                    </button>
+                    <button onclick="showSection('settings')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300">
+                        <span class="text-xl">⚙</span>
+                        <span class="font-medium">Pengaturan</span>
+                    </button>
+                    <button onclick="showSection('addresses')" class="menu-item w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors hover:bg-blue-50 dark:hover:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 text-gray-600 dark:text-gray-300">
+                        <span class="text-xl">📍</span>
+                        <span class="font-medium">Alamat Saya</span>
+                    </button>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Konten Utama -->
+        <main class="flex-1 bg-gray-100 dark:bg-gray-900 p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 lg:p-8 shadow-lg min-h-96">
+                <!-- Info Profil Section -->
+                <div id="info" class="content-section">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Info Profil</h2>
+                        <button onclick="showSection('edit')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium flex items-center gap-2">
+                            <span>✏</span>
+                            <span>Edit Profil</span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Profile Photo -->
+                        <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-4xl font-bold mx-auto md:mx-0">
+                            <span id="profile-initial">B</span>
+                        </div>
+                        
+                        <!-- Profile Info -->
+                        <div class="flex-1">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nama Lengkap</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white" id="info-name">Lukassa</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white" id="info-email">Lukassa@gmail.com</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">No. Telepon</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white" id="info-phone">+62 821-2597-5449</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tanggal Bergabung</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white">30 Januari 2023</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status Member</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-yellow-600 dark:text-yellow-400 font-medium">Member Premium</div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Total Pesanan</label>
+                                        <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-white">24 pesanan</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Profil Section -->
+                <div id="edit" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Edit Profil</h2>
+                    <form id="edit-profile-form" onsubmit="saveProfile(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nama Lengkap</label>
+                                    <input type="text" id="edit-name" name="name" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                                    <input type="email" id="edit-email" name="email" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">No. Telepon</label>
+                                    <input type="tel" id="edit-phone" name="phone" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tanggal Lahir</label>
+                                    <input type="date" id="edit-birthdate" name="birthdate" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Jenis Kelamin</label>
+                                    <select id="edit-gender" name="gender" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Ganti Foto Profil</label>
+                                    <input type="file" id="edit-photo" name="photo" accept="image/*" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 pt-4">
+                            <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                                Simpan Perubahan
+                            </button>
+                            <button type="button" onclick="showSection('info')" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                                Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Riwayat Pesanan Section -->
+                <div id="orders" class="content-section hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2">Riwayat Pesanan</h2>
+                    <div id="orders-loading" class="text-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                        <p class="text-gray-600">Memuat riwayat pesanan...</p>
+                    </div>
+                    <div id="orders-content" class="space-y-4 hidden">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                    <div id="orders-error" class="text-center py-8 hidden">
+                        <p class="text-red-600 mb-4">Gagal memuat riwayat pesanan. Silakan coba lagi.</p>
+                        <button onclick="loadOrders()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wishlist Section -->
+                <div id="wishlist" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Wishlist Saya</h2>
+                    <div id="wishlist-loading" class="text-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                        <p class="text-gray-600">Memuat produk favorit...</p>
+                    </div>
+                    <div id="wishlist-content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                        <!-- Products will be loaded here -->
+                    </div>
+                    <div id="wishlist-error" class="text-center py-8 hidden">
+                        <p class="text-red-600 mb-4">Gagal memuat wishlist. Silakan coba lagi.</p>
+                        <button onclick="loadWishlist()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pengaturan Section -->
+                <div id="settings" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Pengaturan Akun</h2>
+                    <div class="max-w-2xl space-y-6">
+                        <!-- Notification Settings -->
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Notifikasi Email</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Terima update pesanan via email</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-[10px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+
+                            <div class="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Notifikasi Push</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Terima notifikasi langsung di perangkat</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-[10px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+
+                            <div class="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Newsletter</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Terima info promo dan produk terbaru</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-[10px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+                            
+                            <div class="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Two-Factor Authentication</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Keamanan tambahan untuk akun Anda</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-[10px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+
+                            <div class="flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Mode Gelap</h4>
+                                    <p class="text-gray-500 dark:text-gray-400 text-sm">Ubah tampilan menjadi mode gelap</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="theme-toggle" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-[10px] rtl:peer-checked:after:-translate-x-[16px] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                        
+
+                        <!-- Change Password -->
+                        <div class="pt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ubah Password</h3>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password Lama</label>
+                                    <input type="password" placeholder="Masukkan password lama" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Password Baru</label>
+                                    <input type="password" placeholder="Masukkan password baru" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Konfirmasi Password Baru</label>
+                                    <input type="password" placeholder="Konfirmasi password baru" class="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                </div>
+                                <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors font-medium">
+                                    Update Password
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Logout Section -->
+                        <div class="pt-8 border-t border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Keluar Akun</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Keluar dari akun Anda untuk keamanan</p>
+                            <a href="index.html">
+                                <button onclick="logout()" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-500 transition-colors font-medium flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Keluar
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alamat Section -->
+                <div id="addresses" class="content-section hidden">
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-6">Alamat Saya</h2>
+                    
+                    <div class="mb-6">
+                        <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            + Tambah Alamat Baru
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-6 relative">
+                            <div class="absolute top-4 right-4">
+                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">Alamat Utama</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-900 mb-2">Rumah</h4>
+                            <p class="text-gray-900 font-medium mb-2">M.Husein A.R | +62 821-2597-5449</p>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                Jl. M.yusuf 3 No. 57, RT 03/RW 22<br>
+                                Kelurahan sukmajaya<br>
+                                Jawa barat, Depok
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                                    Edit
+                                </button>
+                                <button class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium">
+                                    Hapus
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-6">
+                            <h4 class="font-semibold text-gray-900 mb-2">Kantor</h4>
+                            <p class="text-gray-900 font-medium mb-2">M.Husein A.R | +62 821-2597-5449</p>
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                Jl. Kuta, RT 03/RW 22<br>
+                                Kebupaten Pemalang, Kecematan Belik<br>
+                                Jawa Tengah, Pemalang
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium">
+                                    Edit
+                                </button>
+                                <button class="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium">
+                                    Hapus
+                                </button>
+                                <button class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm font-medium">
+                                    Jadikan Utama
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+    <script src="profile.js"></script>
+</body>
+</html>
